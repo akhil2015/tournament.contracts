@@ -43,6 +43,7 @@ contract Tournament {
         require(isPlayer[_tournamentId][msg.sender] == false, "User already joined");
         require(isActive[_tournamentId] == 1, "Tournament is not available to join");
         rosters[_tournamentId].push(msg.sender);
+        isPlayer[_tournamentId][msg.sender] = true;
         if(rosters[_tournamentId].length == maxPlayers[_tournamentId]){
             isActive[_tournamentId] = 2;
             emit TournamentStarted(_tournamentId);
