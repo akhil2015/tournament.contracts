@@ -103,5 +103,24 @@ describe("Tournament", function () {
         .to.emit(tournament, "TournamentEnded")
         .withArgs(0);
     });
+    it("Only organiser can end the tournament", async function () {
+      const { tournament, owner, account1, account2, account3 } =
+        await loadFixture(deployTournamentFixture);
+      const MAX_PLAYERS = 3;
+      await tournament.connect(owner).createTournament(MAX_PLAYERS);
+      await tournament.connect(account1).joinTournament(0);
+      await tournament.connect(account2).joinTournament(0);
+      await tournament.connect(account3).joinTournament(0);
+      await expect(
+        tournament
+          .connect(account1)
+          .endTournament(
+            0,
+            [account1.address, account2.address, account3.address],
+            [4, 7, 2]
+          )
+      )
+        .to.be.revertedWith("Only organiser can call this function");
+    });
   });
 });
