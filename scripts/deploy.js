@@ -8,7 +8,7 @@ const hre = require("hardhat");
 
 async function main() {
   const Tournament = await hre.ethers.getContractFactory("Tournament");
-  const tournament = await Tournament.deploy();
+  const tournament = await Tournament.deploy("0xaD4695d3a21295365523Ef8DB85CBb932198eF45");
 
   await tournament.deployed();
 
