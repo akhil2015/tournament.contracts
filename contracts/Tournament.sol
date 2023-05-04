@@ -40,6 +40,7 @@ contract Tournament {
     }
 
     function joinTournament(uint256 _tournamentId) external {
+        require(isPlayer[_tournamentId][msg.sender] == false, "User already joined");
         require(isActive[_tournamentId] == 1, "Tournament is not available to join");
         rosters[_tournamentId].push(msg.sender);
         if(rosters[_tournamentId].length == maxPlayers[_tournamentId]){
@@ -51,12 +52,11 @@ contract Tournament {
 
     function endTournament(
         uint256 _tournamentId,
-        address[] calldata _users,
         uint256[] calldata _scores
     ) external onlyOrganiser {
         require(isActive[_tournamentId] == 2, "Tournament is not active");
-        for (uint256 i = 0; i < _users.length; i++) {
-            scores[_tournamentId][_users[i]] = _scores[i];
+        for (uint256 i = 0; i < rosters[_tournamentId].length; i++) {
+            scores[_tournamentId][rosters[_tournamentId][i]] = _scores[i];
         }
         isActive[_tournamentId] = 3;
         emit TournamentEnded(_tournamentId);

@@ -96,7 +96,6 @@ describe("Tournament", function () {
           .connect(owner)
           .endTournament(
             0,
-            [account1.address, account2.address, account3.address],
             [4, 7, 2]
           )
       )
@@ -116,7 +115,6 @@ describe("Tournament", function () {
           .connect(account1)
           .endTournament(
             0,
-            [account1.address, account2.address, account3.address],
             [4, 7, 2]
           )
       )
